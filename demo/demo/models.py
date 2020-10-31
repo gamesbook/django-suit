@@ -9,6 +9,9 @@ class Continent(models.Model):
     name = models.CharField(max_length=256)
     order = models.PositiveIntegerField()
 
+    def __str__(self):
+        return self.name
+
     def __unicode__(self):
         return self.name
 
@@ -31,6 +34,9 @@ class Country(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+        
     class Meta:
         ordering = ('name',)
         verbose_name_plural = 'Countries'
@@ -46,8 +52,11 @@ class City(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+
     class Meta:
-        verbose_name_plural = "Cities (django-select2)"
+        verbose_name_plural = "Cities"
         unique_together = ('name', 'country')
 
 

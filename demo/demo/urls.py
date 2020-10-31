@@ -29,8 +29,47 @@ urlpatterns = [
     # Django-Select2
     url(r'^select2/', include('django_select2.urls')),
 
+    # django-autocomplete-light
+    url(
+        r'^country-autocomplete/$',
+        views.CountryAutocomplete.as_view(),
+        name='country-autocomplete'),
+
     # Documentation url for menu documentation link
-    url(r'^admin/custom2/', RedirectView.as_view(url='http://djangosuit.com/support/'), name='django-admindocs-docroot'),
+    url(
+        r'^admin/custom2/', 
+        RedirectView.as_view(url='http://djangosuit.com/support/'), 
+        name='django-admindocs-docroot'),
 
     url(r'^$', views.home, name='home'),
 ]
+
+'''
+# ORIGINAL
+
+urlpatterns = [
+
+    # Django Suit custom admin view
+    url(r'^admin/custom/$', views.custom_admin_view),
+
+    url(r'^admin/', admin.site.urls),
+    
+    # django-autocomplete-light
+    #url(
+    #    r'^country-autocomplete/$',
+    #    views.CountryAutocomplete.as_view(),
+    #    name='country-autocomplete'),
+
+    # Django-Select2
+    url(r'^select2/', include('django_select2.urls')),
+
+    # Documentation url for menu documentation link
+    url(
+        r'^admin/custom2/', 
+        RedirectView.as_view(url='http://djangosuit.com/support/'), 
+        name='django-admindocs-docroot'),
+
+    url(r'^$', views.home, name='home'),
+]
+'''
+

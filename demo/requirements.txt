@@ -1,2 +1,4 @@
 Django==1.10.5
 Django-Select2==5.8.10
+django-autocomplete-light==3.8.1
+

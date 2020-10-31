@@ -5,6 +5,7 @@ from suit.menu import ParentItem, ChildItem
 class SuitConfig(DjangoSuitConfig):
     menu = (
         ParentItem('Content', children=[
+            ChildItem(model='demo.city'),
             ChildItem(model='demo.country'),
             ChildItem(model='demo.continent'),
             ChildItem(model='demo.showcase'),

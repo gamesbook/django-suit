@@ -3,6 +3,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from dal import autocomplete
+from .models import Country
+
 
 @staff_member_required
 def custom_admin_view(request):
@@ -28,3 +31,16 @@ def home(request):
      Welcome to Django Suit demo app.<br>
      Go to <a href="/admin/">admin</a> to explore all the features.
     </body></html>""")
+    
+
+class CountryAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        # filter out results depending on the user
+        if not self.request.user.is_authenticated:
+            return Country.objects.none()
+        qs = Country.objects.all()
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs
+

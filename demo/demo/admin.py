@@ -5,9 +5,11 @@ from django.forms import ModelForm, Select, TextInput, NumberInput
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.shortcuts import redirect
-from django_select2.forms import ModelSelect2Widget
-from suit import apps
 
+from django_select2.forms import ModelSelect2Widget
+from dal import autocomplete
+
+from suit import apps
 from suit.admin import RelatedFieldAdmin, get_related_field
 from suit.admin_filters import IsNullFieldListFilter
 from suit.sortables import SortableTabularInline, SortableModelAdmin, SortableStackedInline
@@ -66,7 +68,7 @@ class PopulationFilter(IsNullFieldListFilter):
 class CountryAdmin(RelatedFieldAdmin):
     form = CountryForm
     search_fields = ('name', 'code')
-    list_display = ('name', 'code', 'link_to_continent', 'independence_day')
+    list_display = ('name', 'code', 'independence_day')
     list_filter = ('continent', 'independence_day', 'code', ('population', PopulationFilter))
     suit_list_filter_horizontal = ('code', 'population')
     list_select_related = True
@@ -175,6 +177,26 @@ class ContinentAdmin(SortableModelAdmin):
 
     def countries(self, obj):
         return len(obj.country_set.all())
+
+
+class CityForm(ModelForm):
+    class Meta:
+        model = City
+        fields = ('__all__')
+        widgets = {
+            'country': autocomplete.ModelSelect2(url='country-autocomplete'),
+            'area': EnclosedInput(prepend='fa-globe', append='km<sup>2</sup>'),
+            'population': EnclosedInput(prepend='fa-users'),
+        }
+
+
+@admin.register(City)
+class CityAdmin(RelatedFieldAdmin):
+    search_fields = ('name',)
+    list_display = ('name', 'country', 'is_capital', 'population', )
+    list_filter = ('is_capital', )
+    suit_list_filter_horizontal = ('is_capital', )
+    form = CityForm
 
 
 class BookInline(SortableTabularInline):

@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     # 3rd party apps
     'django_select2',
 
+    'dal',
+    'dal_select2',
+    'dal_legacy_static',
+
     # Django
     'django.contrib.admin',
     'django.contrib.auth',
